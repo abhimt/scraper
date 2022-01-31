@@ -180,3 +180,26 @@ def get_program_list(university_id):
   for row in rows:
     programs.append(row[0])
   return programs
+
+def select_programs (university):
+  conn = create_connection()
+  cur = conn.cursor()
+  query = '''SELECT * FROM programs_courses WHERE university_id==?'''
+  cur.execute(query, (university,))
+  rows = cur.fetchall()
+  return rows
+
+def select_programs_courses (university):
+    conn = create_connection()
+    cur = conn.cursor()
+    query = '''SELECT * FROM courses_info WHERE university_id=?'''
+    cur.execute(query, (university,))
+    rows = cur.fetchall()
+    return rows
+
+def add_sort_des(university, course, des):
+  conn = create_connection()
+  cur = conn.cursor()
+  query = '''UPDATE courses_info SET short_des=? WHERE university_id=? AND course=?'''
+  cur.execute(query, (des, university, course))
+  conn.commit()
